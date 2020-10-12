@@ -11,7 +11,7 @@
     "build-ts": "tsc -p server",
     "data:import": "node server/seeder",
     "data:destroy": "node server/seeder -d",
-    "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm run build-ts && npm install --prefix frontend && npm run build --prefix frontend"
+    "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm run build-ts && npm install --prefix client && npm run build --prefix client"
   },
   "author": "Harsh Patel",
   "license": "ISC",
