@@ -1,11 +1,21 @@
-import React from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
+import axios from 'axios';
 import { Link } from 'react-router-dom';
 import { Row, Col, Image, ListGroup, Card, Button } from 'react-bootstrap';
 import Rating from '../components/Rating';
-import products from '../products';
 
 const ProductScreen = ({ match }) => {
-  const product = products.find(product => product._id === match.params.id);
+
+  const [product, setProduct] = useState({});
+
+  const getProduct = useCallback(async () => {
+    const product = await axios.get(`/api/products/${match.params.id}`)
+    setProduct(product.data);
+  }, [match.params.id]);
+
+  useEffect(() => {
+    getProduct();
+  }, [getProduct]);
 
   return (
     <>
@@ -45,7 +55,7 @@ const ProductScreen = ({ match }) => {
               <ListGroup.Item>
                 <Row>
                   <Col>
-                    Status: ${product.price}
+                    Status:
                   </Col>
                   <Col>
                     {product.countInStock > 0 ? 'In Stock' : 'Out Of Stock'}
