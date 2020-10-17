@@ -1,19 +1,25 @@
-import express, { Application, Request, Response } from 'express';
+import mongoose from "mongoose";
 import dotenv from 'dotenv';
-
-import products from './data/products';
+import { app } from './app';
+import { DatabaseConnectionError } from './errors/database-connection-error';
 
 dotenv.config();
 
-const app: Application = express();
+const start = async () => {
+  try {
+    const connection = await mongoose.connect(process.env.MONGO_URI!, {
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+      useCreateIndex: true
+    });
 
-app.get('/api/products', (req: Request, res: Response) => {
-  res.json(products);
-});
+    console.log(`MongoDB Connected: ${connection.connection.host}`);
+  } catch (err) {
+    throw new DatabaseConnectionError();
+  };
 
-app.get('/api/products/:id', (req: Request, res: Response) => {
-  const product = products.find(product => product._id === req.params.id);
-  res.json(product);
-})
+  app.listen(process.env.PORT, () => console.log(`Server running in ${process.env.NODE_ENV} mode on port: ${process.env.PORT}`));
+};
 
-app.listen(process.env.PORT, () => console.log(`Server running in ${process.env.NODE_ENV} mode on port: ${process.env.PORT}`));
+// 🚀
+start();

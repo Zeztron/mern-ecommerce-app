@@ -9,7 +9,7 @@ const ProductScreen = ({ match }) => {
   const [product, setProduct] = useState({});
 
   const getProduct = useCallback(async () => {
-    const product = await axios.get(`/api/products/${match.params.id}`)
+    const product = await axios.get(`/api/products/${match.params.id}`);
     setProduct(product.data);
   }, [match.params.id]);
 
