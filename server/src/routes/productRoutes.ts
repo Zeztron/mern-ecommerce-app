@@ -1,5 +1,6 @@
 import { Router, Request, Response } from 'express';
 import asyncHandler from 'express-async-handler';
+import { NotFoundError } from '../errors/notFoundError';
 import { Product } from '../models/productModel';
 
 const router = Router();
@@ -21,12 +22,14 @@ router.get('/', asyncHandler(async (req: Request, res: Response) => {
  * */ 
 router.get('/:id', asyncHandler(async (req: Request, res: Response) => {
   const product = await Product.findById(req.params.id);
+  
+  if (!product) {
+    res.status(404);
+    throw new Error('Product not found');
+  };
 
-  if (product) {
-    res.json(product);
-  } else {
-    res.status(404).json({ message: 'Product not found.' });
-  }
+  res.json(product);
+
 }));
 
 export { router as productRouter };
