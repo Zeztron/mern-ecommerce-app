@@ -1,13 +1,10 @@
 import mongoose from 'mongoose';
-import { UserAttrs } from './userModel';
+import { UserAttrs } from '../interfaces/user.interface';
+import { ReviewAttrs } from '../interfaces/review.interface';
+import { ProductAttrs } from '../interfaces/product.interface';
 
 // An interface that describes the properties
 // that are required to create a new Review
-interface ReviewAttrs {
-  name: string;
-  rating: string;
-  comment: string;
-}
 
 const reviewSchema = new mongoose.Schema({
   name: {
@@ -25,23 +22,6 @@ const reviewSchema = new mongoose.Schema({
 }, {
   timestamps: true
 });
-
-
-// An interface that describes the properties
-// that are required to create a new Product
-export interface ProductAttrs {
-  user: UserAttrs;
-  name: string;
-  image: string;
-  brand: string;
-  category: string;
-  description: string;
-  review: ReviewAttrs;
-  rating: number;
-  numReviews: number;
-  price: number;
-  countInStock: number;
-};
 
 // An interface that describes the properties
 // that a User Document has

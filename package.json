@@ -9,13 +9,14 @@
     "client": "npm start --prefix client",
     "dev": "concurrently \"npm run server\" \"npm run client\"",
     "build-ts": "tsc -p server",
-    "data:import": "node server/seeder",
-    "data:destroy": "node server/seeder -d",
+    "data:import": "ts-node --project server/tsconfig.json server/src/seeder.ts",
+    "data:destroy": "ts-node --project server/tsconfig.json server/src/seeder.ts -d",
     "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm run build-ts && npm install --prefix client && npm run build --prefix client"
   },
   "author": "Harsh Patel",
   "license": "ISC",
   "dependencies": {
+    "@types/bcryptjs": "^2.4.2",
     "@types/express": "^4.17.8",
     "@types/jsonwebtoken": "^8.5.0",
     "@types/mongoose": "^5.7.36",

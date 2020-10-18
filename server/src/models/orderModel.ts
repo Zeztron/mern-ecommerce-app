@@ -1,40 +1,10 @@
 import mongoose from 'mongoose';
-import { UserAttrs } from './userModel';
-import { ProductAttrs } from './productModel';
-
+import { UserAttrs } from '../interfaces/user.interface';
+import { ProductAttrs } from '../interfaces/product.interface';
+import { OrderAttrs } from '../interfaces/order.interface';
 
 // An interface that describes the properties
 // that are required to create a new Order
-interface OrderAtts {
-  user: UserAttrs;
-  orderItems: {
-    name: string;
-    quantity: number;
-    image: string;
-    product: ProductAttrs
-  }
-  shippingAddress: {
-    address: string,
-    city: string,
-    postalCode: string,
-    country: string
-  };
-  paymentMethod: string,
-  paymentResult: {
-    id: string,
-    status: string,
-    update_time: string,
-    email_address: string
-  },
-  taxPrice: number,
-  shippingPrice: number,
-  totalPrice: number,
-  isPaid: boolean,
-  paidAt: Date,
-  isDelivered: boolean,
-  deliveredAt: Date
-};
-
 // An interface that describes the properties
 // that a User Document has
 interface OrderDoc extends mongoose.Document {
@@ -70,7 +40,7 @@ interface OrderDoc extends mongoose.Document {
 // An interface that describes the properties
 // That a User model has
 interface OrderModel extends mongoose.Model<OrderDoc> {
-  build(atts: OrderAtts): OrderDoc;
+  build(atts: OrderAttrs): OrderDoc;
 };
 
 
@@ -155,7 +125,7 @@ const orderSchema = new mongoose.Schema({
   timestamps: true
 });
 
-orderSchema.statics.build = (attrs: OrderAtts) => {
+orderSchema.statics.build = (attrs: OrderAttrs) => {
   return new Order(attrs);
 };
 

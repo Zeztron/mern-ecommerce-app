@@ -1,13 +1,9 @@
 import mongoose from 'mongoose';
+import { UserAttrs } from '../interfaces/user.interface';
 
 // An interface that describes the properties
 // that are required to create a new User
-export interface UserAttrs {
-  name: string;
-  email: string;
-  password: string;
-  isAdmin: boolean;
-};
+
 
 // An interface that describes the properties
 // that a User Document has
