@@ -1,6 +1,5 @@
 import { Router, Request, Response } from 'express';
 import asyncHandler from 'express-async-handler';
-import { NotFoundError } from '../errors/notFoundError';
 import { Product } from '../models/productModel';
 
 const router = Router();
