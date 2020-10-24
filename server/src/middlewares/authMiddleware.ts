@@ -18,7 +18,7 @@ declare global {
 
 const protect: RequestHandler = asyncHandler(async (req: Request, res: Response, next: NextFunction) => {
 
-  if (!req.headers.authorization) return next();
+  if (!req.headers.authorization) throw new NotAuthorizedError();
 
   const token: string = req.headers.authorization.split(' ')[1];
 
