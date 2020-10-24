@@ -8,7 +8,7 @@ import bcrypt from 'bcryptjs';
 
 // An interface that describes the properties
 // that a User Document has
-interface UserDoc extends mongoose.Document {
+export interface UserDoc extends mongoose.Document {
   name: string;
   email: string;
   password: string;
@@ -43,6 +43,15 @@ const userSchema = new mongoose.Schema({
   }
 }, {
   timestamps: true
+})
+.pre<UserDoc>('save', async function(next: mongoose.HookNextFunction) {
+
+  if (!this.isModified('password')) return next();
+
+  const salt = await bcrypt.genSalt(10);
+  this.password = await bcrypt.hash(this.password, salt);
+
+  next();
 });
 
 userSchema.statics.build = (attrs: UserAttrs) => {
@@ -52,6 +61,7 @@ userSchema.statics.build = (attrs: UserAttrs) => {
 userSchema.methods.comparePassword = async function(enteredPassword: string) {
   return await bcrypt.compare(enteredPassword, this.password);
 };
+
 
 const User = mongoose.model<UserDoc, UserModel>('User', userSchema);
 
