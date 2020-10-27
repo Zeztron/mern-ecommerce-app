@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import Message from '../components/Message';
 import Loader from '../components/Loader';
 import { getUserDetails, updateUserProfile } from '../actions/userActions';
+import { USER_UPDATE_PROFILE_RESET } from '../constants';
 
 const ProfileScreen = ({ history }) => {
   const [name, setName] = useState('');
@@ -20,13 +21,14 @@ const ProfileScreen = ({ history }) => {
 
   useEffect(() => {
     if (!userInfo) history.push('/login')
-    if (!user.name) {
+    if (!user || !user.name || success) {
+      dispatch({ type: USER_UPDATE_PROFILE_RESET });
       dispatch(getUserDetails('profile'));
     } else {
       setName(user.name);
       setEmail(user.email);
     }
-  }, [dispatch, history, userInfo, user]);
+  }, [dispatch, history, userInfo, user, success]);
 
   const submitHandler = e => {
     e.preventDefault();
